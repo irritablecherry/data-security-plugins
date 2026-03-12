@@ -24,7 +24,8 @@ jobs:
           dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
           dst_token: ${{ secrets.GITEE_TOKEN }}
           # 支持Github/Gitee/Gitcode的用户、组织以及Gitlab的组
-          account_type: org
+          account_type: user
           # 支持分别设置源和目的端的类型
           # src_account_type: org
           # dst_account_type: org
+          debug: true  # 启用后会显示所有执行命令
