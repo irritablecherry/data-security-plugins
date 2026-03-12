@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.org.cherry.data.security.mapper.DataSecurityMetadataMapper">
+
+    <select id="selectPageList" resultType="java.util.Map">
+        SELECT * FROM ${tableName} where 1=1
+        <if test="ew != null and ew.sqlSegment != null and ew.sqlSegment != ''">
+           and ${ew.sqlSegment}
+        </if>
+    </select>
+    <!-- 动态表名更新 -->
+    <update id="updateByWrapper">
+        UPDATE ${tableName}
+        <set>
+            ${ew.sqlSet}
+        </set>
+        <where>
+            ${ew.sqlSegment}
+        </where>
+    </update>
+
+    <select id="selectListByWrapper" resultType="java.util.Map">
+        SELECT * FROM ${tableName} where 1=1
+        <if test="ew != null and ew.sqlSegment != null and ew.sqlSegment != ''">
+            and ${ew.sqlSegment}
+        </if>
+    </select>
+
+    <select id="selectListBySql" resultType="java.util.Map">
+        ${sql}
+    </select>
+</mapper>

@@ -1,0 +1,59 @@
+# 数据安全插件配置示例
+# data-security-plugins Configuration Example
+
+# 是否启用数据安全插件
+data-security:
+  enabled: true
+
+  # 鉴别码配置
+  identification:
+    enabled: true #是否启用鉴别码
+#    content-field: identification_content #鉴别码内容数据库字段 该字段生产环境应该不设置 用于调试 该字段变化不会全量更新数据
+    code-field: identification_code #鉴别码数据库字段
+    content-log: false #是否日志打印鉴别码原始数据 调试使用 默认false
+    algorithm: SHA-256 #鉴别码算法
+    check-result-field: identificationValid #鉴别码结果字段 需要再实体中自行增加
+    strategy: defaultIdentificationCodeStrategy #鉴别码策略
+    exclude-fields: # 默认不参与鉴别码的属性字段
+      - createTime
+      - updateTime
+      - createBy
+      - updateBy
+
+  # 加密配置
+  encryption:
+    enabled: true  # 是否启用加密功能
+    algorithm: "AES"  # 默认加密算法
+    key-id: "default_key"  # 默认密钥ID
+    mode: "CBC"  # 默认加密模式 AES, SM4, DES 支持 ECB、CBC、CFB、OFB、CTR 模式。RSA 不支持加密模式
+    padding: "PKCS5Padding"  # 默认填充模式
+    strategy: "defaultEncryptionStrategy"  # 默认加密策略
+    key-provider: "defaultKeyProvider"  # 默认密钥提供器
+    supported-algorithms: # 支持的加密算法
+      - AES
+      - SM4
+      - RSA
+      - DES
+
+    # 密钥配置
+    keys:
+      # AES算法密钥（32字节，实际使用前16字节）
+      aes: 0123456789ABCDEF0123456789ABCDEF
+      # SM4算法密钥（32字节，实际使用前16字节）
+      sm4: 0123456789ABCDEF0123456789ABCDEF
+      # DES算法密钥（16字节，实际使用前8字节）
+      des: 0123456789ABCDEF
+      # RSA算法密钥（Base64编码的公钥）
+      rsa: ""
+      # 自定义密钥映射（key为密钥ID，value为密钥值）
+      custom-keys:
+        user-key: custom-user-key-value
+        order-key: custom-order-key-value
+        payment-key: custom-payment-key-value
+
+  # 自动建表配置
+  auto-create:
+    enabled: true  # 是否自动创建鉴别码元数据和相关字段
+    auto-handle-data-enable: true # 启动后是否自动处理数据 指生成鉴别码和加密处理 yudao等多租户框架需要自行处理 这里需要是false
+    auto-handle-data-async: false # 是否执行异步处理
+    batch-size: 100
